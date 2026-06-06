@@ -2,6 +2,7 @@ package com.example.blog.Controller;
 import org.springframework.web.multipart.MultipartFile;
 import com.example.blog.Result;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,9 +12,18 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/File")
 public class FileController {
-    private String uploadPath="D:/uploads/";
+    @Value("${upload.path:/tmp/uploads/}")
+    private String uploadPath;
+
+    @Value("${server.base-url:http://localhost:8080}")
+    private String baseUrl;
+
     @PostMapping("/upload")
     public Result<String> upload(@RequestParam("file") MultipartFile file,@RequestParam(value = "oldAvatar",required = false) String oldAvatar)throws IOException{
+        File dir = new File(uploadPath);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
         String originalName=file.getOriginalFilename();
         String ext=originalName.substring(originalName.lastIndexOf("."));
         String newName= UUID.randomUUID().toString()+ext;
@@ -29,6 +39,6 @@ public class FileController {
                 }
             }
         }
-        return Result.success("http://localhost:8080/uploads/"+newName);
+        return Result.success(baseUrl+"/uploads/"+newName);
     }
 }
