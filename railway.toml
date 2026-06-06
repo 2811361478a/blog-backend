@@ -2,4 +2,7 @@
 builder = "nixpacks"
 
 [build.env]
-NIXPACKS_BUILD_CMD = "./mvnw clean package -DskipTests"
+NIXPACKS_BUILD_CMD = "chmod +x mvnw && ./mvnw clean package -DskipTests"
+
+[deploy]
+startCommand = "java -jar target/*.jar"
