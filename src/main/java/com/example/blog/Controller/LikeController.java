@@ -1,8 +1,7 @@
-package com.example.blog.Controller;
+package com.example.blog.controller;
 
 import com.example.blog.Result;
-import com.example.blog.Service.LikeService;
-import com.example.blog.entity.Like;
+import com.example.blog.service.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,16 +13,17 @@ public class LikeController {
     private LikeService likeService;
 
     @PostMapping("/{postId}")
-    Result<Boolean> toggleLike(@PathVariable Long postId, @RequestParam Long userId){
-        return Result.success(likeService.toggleLike(userId,postId));
+    public Result<Boolean> toggleLike(@PathVariable Long postId, @RequestParam Long userId) {
+        return Result.success(likeService.toggleLike(userId, postId));
     }
 
     @GetMapping("/{postId}/check")
-    Result<Boolean> isLiked(@PathVariable Long postId,@RequestParam Long userId){
+    public Result<Boolean> isLiked(@PathVariable Long postId, @RequestParam Long userId) {
         return Result.success(likeService.isLiked(userId, postId));
     }
+
     @GetMapping("/{postId}/count")
-    Result<Long> getCount(@PathVariable Long postId){
+    public Result<Integer> getCount(@PathVariable Long postId) {
         return Result.success(likeService.getLikeCount(postId));
     }
 }

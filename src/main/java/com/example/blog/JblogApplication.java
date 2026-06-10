@@ -1,11 +1,13 @@
 package com.example.blog;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TodoApplication {
+@MapperScan("com.example.blog.mapper")
+public class JblogApplication {
     public static void main(String[] args) {
-        SpringApplication.run(TodoApplication.class, args);
+        SpringApplication.run(JblogApplication.class, args);
     }
 }

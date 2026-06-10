@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.blog.mapper.PostMapper">
+
+    <select id="findAll" resultType="Post">
+        SELECT * FROM post ORDER BY create_time DESC
+    </select>
+
+    <select id="findByStatus" resultType="Post">
+        SELECT * FROM post WHERE status = #{status} ORDER BY create_time DESC
+    </select>
+
+    <select id="searchByKeyWord" resultType="Post">
+        SELECT * FROM post
+        WHERE title LIKE CONCAT('%', #{keyword}, '%')
+           OR content LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="findByAuthorId" resultType="Post">
+        SELECT * FROM post WHERE author_id = #{authorId} ORDER BY create_time DESC
+    </select>
+
+    <select id="findByAuthorIdAndStatus" resultType="Post">
+        SELECT * FROM post WHERE author_id = #{authorId} AND status = #{status} ORDER BY create_time DESC
+    </select>
+
+    <select id="findById" resultType="Post">
+        SELECT * FROM post WHERE id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO post (title, content, summary, author_id, category_id, status, view_count, create_time, update_time)
+        VALUES (#{title}, #{content}, #{summary}, #{authorId}, #{categoryId}, #{status}, #{viewCount}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="update">
+        UPDATE post
+        SET title = #{title}, content = #{content}, summary = #{summary},
+            status = #{status}, update_time = #{updateTime}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM post WHERE id = #{id}
+    </delete>
+</mapper>

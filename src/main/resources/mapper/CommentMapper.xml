@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.blog.mapper.CommentMapper">
+
+    <select id="findByPostId" resultType="Comment">
+        SELECT c.*, u.username
+        FROM comment c
+        LEFT JOIN user u ON c.user_id = u.id
+        WHERE c.post_id = #{postId}
+        ORDER BY c.create_time DESC
+    </select>
+
+    <select id="countByPostId" resultType="int">
+        SELECT COUNT(*) FROM comment WHERE post_id = #{postId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO comment (user_id, post_id, content, create_time)
+        VALUES (#{userId}, #{postId}, #{content}, #{createTime})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM comment WHERE id = #{id}
+    </delete>
+</mapper>
